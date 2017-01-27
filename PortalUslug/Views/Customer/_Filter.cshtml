@@ -1,0 +1,31 @@
+﻿@model PortalUslug.Models.View.CustomerFilterViewModel
+
+@using (Html.BeginForm("Index", "Customer", FormMethod.Get, htmlAttributes: new { @id = "customerSearch", @class = "form-inline" }))
+{
+    <div id="searchFilter">
+        <div class="row">
+
+                <div class="col-sm-6">
+                    @Html.Label("Imię: ", htmlAttributes: new { })
+                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+
+                    @Html.Label("Nazwisko: ", htmlAttributes: new { })
+                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+
+                <div class="col-sm-6">
+                    @Html.Label("Miasto: ", htmlAttributes: new { })
+                    @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+
+                    @Html.Label("Ulica: ", htmlAttributes: new { })
+                    @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+        </div>
+        <br />
+        <input type="submit" value="Filtruj" class="btn btn-primary btn-block center-block" />
+
+
+    </div>
+}

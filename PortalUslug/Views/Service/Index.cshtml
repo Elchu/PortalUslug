@@ -1,0 +1,45 @@
+﻿@model PortalUslug.Models.View.ServiceListContainerViewModel
+@using Microsoft.AspNet.Identity
+@using MvcContrib.UI.Grid
+@using MvcContrib.UI.Pager
+@{
+    ViewBag.Title = "Lista usług";
+}
+
+<h2>Lista usług</h2>
+
+@Html.Partial("_Filter", Model.ServiceFilterViewModel)
+
+<br />
+
+<p>
+    @if (User.IsInRole("serviceProvider"))
+    {
+        @Html.ActionLink("Dodaj nową usługę", "Create", null, new { htmlAttributes = new { @class = "btn btn-primary" } })
+    }
+</p>
+
+@Html.Grid(Model.ServicePagedList).Columns(column =>
+{
+    column.For(a => @Html.ActionLink(a.Name, "Details", new { id = a.ServiceId })).Named("Nazwa").SortColumnName("Name");
+    column.For(a => a.Content);
+    column.For(a => a.PostedDate);
+    column.For(a => a.ExpirationDate);
+    column.For(a => a.CategoryName);
+    column.For(a => a.ServiceProvider);
+
+    if (User.IsInRole("serviceProvider"))
+    {
+        column.For(a => (a.UserId == User.Identity.GetUserId() ? @Html.ActionLink("Edytuj", "Edit", new { id = a.ServiceId }) : null));
+        column.For(a => (a.UserId == User.Identity.GetUserId() ? @Html.ActionLink("Usuń", "Delete", new { id = a.ServiceId }) : null));
+    }
+    if (User.IsInRole("administrator"))
+    {
+        column.For(a => a.IPAddress);
+        column.For(a => @Html.ActionLink("Edytuj", "Edit", new { id = a.ServiceId }) );
+        column.For(a => @Html.ActionLink("Usuń", "Delete", new { id = a.ServiceId }) );
+    }
+}).Sort(Model.GridSortOptions).Attributes(@class => "table table-hover").Empty("Brak danych")
+
+@Html.Pager(Model.ServicePagedList).Format("Elementy {0} - {1} z {2}").SingleFormat("Elementy {0} z {1} ").First("| Pierwsza").Last(" Ostatnia").Next("Następna").Previous(" Poprzednia")
+

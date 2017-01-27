@@ -1,0 +1,27 @@
+﻿@model PortalUslug.Models.View.ServiceProviderFilterViewModel
+
+@using (Html.BeginForm("Index", "ServiceProvider", FormMethod.Get, htmlAttributes: new { @id = "serviceProviderSearch", @class = "form-inline" }))
+{
+    <div id="searchFilter">
+        <div class="row">
+            <div class="col-sm-4">
+                @Html.Label("Imię: ", htmlAttributes: new { })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-sm-4">
+                @Html.Label("Miasto: ", htmlAttributes: new { })
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="col-sm-4">
+                @Html.Label("Ulica: ", htmlAttributes: new { })
+                @Html.EditorFor(model => model.Street, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+
+        <br />
+
+        <input type="submit" value="Filtruj" class="btn btn-primary btn-block center-block" />
+
+
+    </div>
+}

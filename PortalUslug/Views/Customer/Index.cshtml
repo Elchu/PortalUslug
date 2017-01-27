@@ -1,0 +1,29 @@
+﻿@model PortalUslug.Models.View.CustomerListContainerViewModel
+
+@using MvcContrib.UI.Grid
+@using MvcContrib.UI.Pager
+
+@{
+    ViewBag.Title = "Lista usługobiorców";
+}
+
+<h2>Lista usługobiorców</h2>
+
+@Html.Partial("_Filter", Model.CustomerFilterViewModel)
+
+<br/>
+
+@Html.Grid(Model.CustomerPageList).Columns(column =>
+{
+    column.For(a => a.LastName);
+    column.For(a => a.FirstName);
+    column.For(a => a.City);
+    column.For(a => a.ZipCode);
+    column.For(a => a.Street);
+    column.For(a => a.IsActive);
+    column.For(a => a.RegistrationDate);
+    column.For(a => @Html.ActionLink("Edytuj", "Edit", new { id = a.CustomerId }));
+    column.For(a => @Html.ActionLink("Usuń", "Delete", new { id = a.CustomerId }));
+}).Sort(Model.GridSortOptions).Attributes(@class => "table table-hover").Empty("Brak danych")
+
+@Html.Pager(Model.CustomerPageList).Format("Elementy {0} - {1} z {2}").SingleFormat("Elementy {0} z {1} ").First("| Pierwsza").Last(" Ostatnia").Next("Następna").Previous(" Poprzednia")

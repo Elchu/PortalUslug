@@ -1,0 +1,41 @@
+﻿@model SpeedRacing.ViewModel.Statystyki
+@{
+    ViewBag.Title = "Statystyka";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Statystyka serwisu</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 list-group">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <span class="badge">@Model.IloscPostow</span>
+                    Ilość postów:
+                </li>
+                <li class="list-group-item">
+                    <span class="badge">@Model.IloscKomentarzy</span>
+                    Ilość komentarzy:
+                </li>
+                <li class="list-group-item">
+                    <span class="badge">@Model.IloscSamochodowSprzedanych</span>
+                    Ilość samochodów sprzedanych: 
+                </li>
+                <li class="list-group-item">
+                    <span class="badge">@Model.IloscSamochodowNaSprzedaz</span>
+                    Ilość samochodów na sprzedaż:
+                </li>
+                <li class="list-group-item">
+                    <span class="badge">@Model.IloscSamochodowPoszukiwanych</span>
+                    Ilość samochodów poszukiwanych: 
+                </li>
+                <li class="list-group-item">
+                    <span class="badge">@Model.IloscUzytkownikowWSerwisie</span>
+                    Ilość użytkowników: 
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+

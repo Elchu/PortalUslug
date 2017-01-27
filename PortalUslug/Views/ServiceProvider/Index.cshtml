@@ -1,0 +1,30 @@
+﻿@model PortalUslug.Models.View.ServiceProviderListContainerViewModel
+@using MvcContrib.UI.Grid
+@using MvcContrib.UI.Pager;
+@{
+    ViewBag.Title = "Lista usługodawców";
+}
+
+<h2>Lista usługodawców</h2>
+
+@Html.Partial("_Filter", Model.ServiceProviderFilterViewModel)
+
+<br />
+
+@Html.Grid(Model.ServiceProviderPagedList).Columns(column =>
+{
+    column.For(a => Html.ActionLink(a.Name, "Details", new { id = a.ServiceProviderId })).Named("Nazwa").SortColumnName("Name");
+    column.For(a => a.City);
+    column.For(a => a.ZipCode);
+    column.For(a => a.Street);
+    column.For(a => a.PhoneNumber);
+    if (User.IsInRole("administrator"))
+    {
+        column.For(a => a.IsActive);
+        column.For(a => a.RegistrationDate);
+        column.For(a => @Html.ActionLink("Edytuj", "Edit", new { id = a.ServiceProviderId }));
+        column.For(a => @Html.ActionLink("Usuń", "Delete", new { id = a.ServiceProviderId }));
+    }
+}).Sort(Model.GridSortOptions).Attributes(@class => "table table-hover").Empty("Brak danych")
+
+@Html.Pager(Model.ServiceProviderPagedList).Format("Elementy {0} - {1} z {2}").SingleFormat("Elementy {0} z {1} ").First("| Pierwsza").Last(" Ostatnia").Next("Następna").Previous(" Poprzednia")

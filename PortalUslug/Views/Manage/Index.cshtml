@@ -1,0 +1,84 @@
+﻿@model PortalUslug.Models.View.IndexViewModel
+@{
+    ViewBag.Title = "Zarządzaj";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    <h4>Zmień ustawienia konta</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Hasło:</dt>
+        <dd>
+            [
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Zmień hasło", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Utwórz", "SetPassword")
+            }
+            ]
+        </dd>
+        <dt>Logowania zewnętrzne:</dt>
+        <dd>
+            @Model.Logins.Count [
+            @Html.ActionLink("Zarządzaj", "ManageLogins") ]
+        </dd>
+        @*
+            Numer telefonu może być używany jako drugi etap weryfikacji w systemie uwierzytelniania dwuetapowego.
+             
+             Zobacz <a href="http://go.microsoft.com/fwlink/?LinkId=403804">ten artykuł</a>,
+                aby uzyskać szczegółowe informacje dotyczące konfigurowania tej aplikacji ASP.NET w celu obsługi uwierzytelniania dwuetapowego za pośrednictwem wiadomości SMS.
+             
+             Po skonfigurowaniu uwierzytelniania dwuetapowego usuń komentarz z poniższego bloku
+        *@
+        @*  
+            <dt>Numer telefonu:</dt>
+            <dd>
+                @(Model.PhoneNumber ?? "Brak") [
+                @if (Model.PhoneNumber != null)
+                {
+                    @Html.ActionLink("Zmień", "AddPhoneNumber")
+                    @: &nbsp;|&nbsp;
+                    @Html.ActionLink("Usuń", "RemovePhoneNumber")
+                }
+                else
+                {
+                    @Html.ActionLink("Dodaj", "AddPhoneNumber")
+                }
+                ]
+            </dd>
+        *@
+        <dt>Uwierzytelnianie dwuetapowe:</dt>
+        <dd>
+            <p>
+                Brak skonfigurowanych dostawców uwierzytelniania dwuetapowego. Zobacz <a href="http://go.microsoft.com/fwlink/?LinkId=403804">ten artykuł</a>,
+                            aby uzyskać szczegółowe informacje dotyczące konfigurowania tej aplikacji ASP.NET w celu obsługi uwierzytelniania dwuetapowego.
+            </p>
+            @*@if (Model.TwoFactor)
+                {
+                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Włączono
+                        <input type="submit" value="Wyłącz" class="btn btn-link" />
+                        </text>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Wyłączono
+                        <input type="submit" value="Włącz" class="btn btn-link" />
+                        </text>
+                    }
+                }*@
+        </dd>
+    </dl>
+</div>

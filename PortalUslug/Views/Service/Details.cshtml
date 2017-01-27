@@ -1,0 +1,102 @@
+﻿@model PortalUslug.Models.View.ServiceCommentsViewModel
+@using Microsoft.AspNet.Identity
+@using MvcContrib.UI.Grid
+@using MvcContrib.UI.Pager
+@{
+    ViewBag.Title = "Szczegóły usługi";
+}
+
+<h2>Szczegóły usługi</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Service.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Service.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Service.Content)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Service.Content)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Service.PostedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Service.PostedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Service.ExpirationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Service.ExpirationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Service.CategoryName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Service.CategoryName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Service.ServiceProvider)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Service.ServiceProvider)
+        </dd>
+
+    </dl>
+</div>
+@if((User.IsInRole("administrator")) || (User.IsInRole("serviceProvider") && User.Identity.GetUserId() == Model.Service.UserId))
+{
+    <p>
+        @Html.ActionLink("Edytuj", "Edit", new { id = Model.Service.ServiceId }) |
+        @Html.ActionLink("Usuń", "Delete", new { id = Model.Service.ServiceId }) |
+        @Html.ActionLink("Wróć do listy", "Index")
+    </p>        
+}
+
+
+@if (Model.ConfirmedUser || User.IsInRole("administrator"))
+{
+    <h2>Komentarze</h2>
+
+    @Html.Grid(Model.CommentPagedList).Columns(column =>
+{
+    column.For(a => a.User);
+    column.For(a => a.Date);
+    column.For(a => a.Content);
+    column.For(a => a.CommentCategoryName);
+    if (User.IsInRole("administrator"))
+    {
+        column.For(a => a.IPAddress);
+        column.For(a => @Html.ActionLink("Edytuj", "Edit", "Comment", new { id = a.CommentId }, null));
+        column.For(a => @Html.ActionLink("Usuń", "Delete", "Comment", new { id = a.CommentId }, null));
+    }
+}).Attributes(@class => "table table-hover").Empty("Brak danych")
+
+    @Html.Pager(Model.CommentPagedList).Format("Elementy {0} - {1} z {2}").SingleFormat("Elementy {0} z {1} ").First("| Pierwsza").Last(" Ostatnia").Next("Następna").Previous(" Poprzednia")
+}
+
+@if (User.IsInRole("administrator") || User.IsInRole("serviceProvider") || User.IsInRole("customer"))
+{
+    <p>
+        @Html.ActionLink("Dodaj komentarz", "Create", "Comment",  new { id = @Model.Service.ServiceId }, null)    
+    </p>
+    
+}

@@ -1,0 +1,31 @@
+﻿@model PortalUslug.Models.View.ServiceFilterViewModel
+
+@using (Html.BeginForm("Index", "Service", FormMethod.Get, htmlAttributes: new { @id = "customerSearch", @class = "form-inline" }))
+{
+    <div id="searchFilter">
+        <div class="row">
+
+                <div class="col-sm-6">
+                    @Html.Label("Nazwa: ", htmlAttributes: new { })
+                    @Html.EditorFor(model => model.ServiceName, new { htmlAttributes = new { @class = "form-control" } })
+
+                    @Html.Label("Treść: ", htmlAttributes: new { })
+                    @Html.EditorFor(model => model.ServiceContent, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+
+
+                <div class="col-sm-6">
+                    @Html.Label("Kategoria: ", htmlAttributes: new { })
+                    @Html.DropDownList("CategoryId", Model.Categories, "Wybierz categorię", htmlAttributes: new { @class = "form-control" })
+
+                    @Html.Label("Usługodawca: ", htmlAttributes: new { })
+                    @Html.DropDownList("ServiceProviderId", Model.ServiceProvider, "Wybierz categorię", htmlAttributes: new { @class = "form-control" })
+                </div>
+
+        </div>
+        <br />
+        <input type="submit" value="Filtruj" class="btn btn-primary btn-block center-block" />
+
+
+    </div>
+}

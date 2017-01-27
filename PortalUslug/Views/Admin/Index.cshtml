@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Panel administracyjny";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Witamy w panelu administracyjnym</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Panel administracyjny</h3>
+    </div>
+    <div class="panel-body">
+        <div role="tabpanel">
+
+            @*poczatek accordion*@
+            <div class="panel-group" id="AdminAccordion" role="tablist" aria-multiselectable="true">
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingTwo">
+                        <h4 class="panel-title">
+                            <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                Panel - Zarządzaj rolami
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <a href="@Url.Action("UtworzRole", "Admin")" class="thumbnail">
+                                        <img src="@Url.Content("~/Content/Images/AdminIco/Bookmark-add-icon.png")" alt="Utwórz rolę">
+                                        <div class="caption text-center">
+                                            <h5>Utwórz rolę</h5>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="@Url.Action("ListaRol", "Admin")" class="thumbnail">
+                                        <img src="@Url.Content("~/Content/Images/AdminIco/Inventory-icon.png")" alt="Lista ról">
+                                        <div class="caption text-center">
+                                            <h5>Lista ról</h5>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="@Url.Action("DodajRoleDoUzytkownika", "Admin")" class="thumbnail">
+                                        <img src="@Url.Content("~/Content/Images/AdminIco/Actions-list-add-user-icon.png")" alt="Dodaj rolę użytkownikowi">
+                                        <div class="caption text-center">
+                                            <h5>Dodaj rolę użytkownikowi</h5>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="@Url.Action("UsunRoleUzytkownikowi", "Admin")" class="thumbnail">
+                                        <img src="@Url.Content("~/Content/Images/AdminIco/Actions-user-group-delete-icon.png")" alt="Usuń rolę użytkownikowi">
+                                        <div class="caption text-center">
+                                            <h5>Usuń rolę użytkownikowi</h5>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-2">
+                                    <a href="@Url.Action("WyswietlRoleUzytkownika", "Admin")" class="thumbnail">
+                                        <img src="@Url.Content("~/Content/Images/AdminIco/Groups-Meeting-Dark-icon.png")" alt="Wyświetl rolę użytkownika">
+                                        <div class=" caption text-center">
+                                            <h5>Wyświetl rolę użytkownika</h5>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>@*koniec accordion*@
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script>
+        $(function () {
+            $('#AdminAccordion').collapse('toggle');
+        })
+    </script>
+}

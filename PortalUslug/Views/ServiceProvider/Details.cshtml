@@ -1,0 +1,97 @@
+﻿@using Microsoft.AspNet.Identity
+@using MvcContrib.UI.Grid
+@using MvcContrib.UI.Pager
+@model PortalUslug.Models.View.ServiceProviderServicesListViewModel
+
+@{
+    ViewBag.Title = "Szczegóły usługodawców i usług";
+}
+
+<h2>Szczegóły usługodawc</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ServiceProvider.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServiceProvider.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ServiceProvider.City)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServiceProvider.City)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ServiceProvider.ZipCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServiceProvider.ZipCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ServiceProvider.Street)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServiceProvider.Street)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ServiceProvider.PhoneNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServiceProvider.PhoneNumber)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @if (User.IsInRole("administrator"))
+    {
+        @Html.ActionLink("Edytuj dane usługodawcy", "Edit", new { id = Model.ServiceProvider.ServiceProviderId })
+        @Html.Display("|")
+    }
+    @Html.ActionLink("Wróć do listy", "Index")
+</p>
+
+
+<h2>Szczegóły usług</h2>
+<hr />
+@Html.Partial("_ServiceFilter", Model.Services.ServiceFilterViewModel)
+
+@Html.Grid(Model.Services.ServicePagedList).Columns(column =>
+{
+    column.For(a => @Html.ActionLink(a.Name, "Details", "Service", new { id = a.ServiceId }, null)).Named("Nazwa").SortColumnName("Name");
+    column.For(a => a.Content);
+    column.For(a => a.PostedDate);
+    column.For(a => a.ExpirationDate);
+    column.For(a => a.CategoryName);
+
+    if (User.IsInRole("serviceProvider") || User.IsInRole("administrator"))
+    {
+        column.For(a => (a.UserId == User.Identity.GetUserId() ? a.IPAddress : ""));
+    }
+    if (User.IsInRole("serviceProvider"))
+    {
+        column.For(a => (a.UserId == User.Identity.GetUserId() ? @Html.ActionLink("Edytuj", "Edit", "Service", new { id = a.ServiceId }, null) : null));
+        column.For(a => (a.UserId == User.Identity.GetUserId() ? @Html.ActionLink("Usuń", "Delete", "Service", new { id = a.ServiceId }, null) : null));
+    }
+    if (User.IsInRole("administrator"))
+    {
+        column.For(a => a.IPAddress);
+        column.For(a => @Html.ActionLink("Edytuj", "Edit", "Service", new { id = a.ServiceId }, null));
+        column.For(a => @Html.ActionLink("Usuń", "Delete", "Service", new { id = a.ServiceId }, null));
+    }
+}).Sort(Model.Services.GridSortOptions).Attributes(@class => "table table-hover").Empty("Brak danych")
+
+@Html.Pager(Model.Services.ServicePagedList).Format("Elementy {0} - {1} z {2}").SingleFormat("Elementy {0} z {1} ").First("| Pierwsza").Last(" Ostatnia").Next("Następna").Previous(" Poprzednia")
+
